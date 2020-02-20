@@ -1,4 +1,4 @@
-'use strict';
+
 
 const apiKey = 'GPqAUm61aeHC88sAySEBgcBVbh1S4QgITnGftGLN';
 const searchURL = 'https://developer.nps.gov/api/v1/parks';
@@ -38,18 +38,22 @@ const getNationalParks = function(query, maxResult=10) {
     })
     .then(responseJson => displayResults(responseJson))
     .catch(err => {
-      $('#js-error-message').text(`Mistakes have been made: ${err.message}`);
+      $('.js-search-results').prepend(
+        `
+      <li>Mistakes have been made: ${err.message}</li>
+      `);
     });
 };
 
 const displayResults = function(responseJson) {
   const { data } = responseJson;
   $('.js-search-results').empty();
-  for (let i = 1; i <= data.length; i++){
-    let { name, description, url, addresses } = data[i];
-    let { postalCode, city, stateCode, line1 } = addresses[1];
-    $('.js-search-results').append(
-      `
+  for (let i = 0; i < data.length; i++){
+    try {
+      let { name, description, url, addresses } = data[i];
+      let { postalCode, city, stateCode, line1 } = addresses[1];
+      $('.js-search-results').append(
+        `
     <li>
     <h2>${name}</h2>
     <address>${line1}<br>${city},${stateCode} ${postalCode}</address>
@@ -57,7 +61,10 @@ const displayResults = function(responseJson) {
     <p>${description}</p>
     </li>
    `
-    );
+      );
+    } catch(e) {
+      console.log('Item was skipped for now due to no physical address');
+    }
   }
 };
 
