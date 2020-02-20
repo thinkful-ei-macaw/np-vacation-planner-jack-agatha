@@ -1,0 +1,31 @@
+h1, form {
+    text-align: center;
+}
+
+h1 {
+    font-size: 3em;
+}
+
+ul {
+    list-style-type: none;
+}
+
+li {
+    border: 1px solid black;
+    margin: 1em auto;
+    padding: 1em;
+    max-width: 70%;
+}
+
+li > h2 {
+    font-size: 2em;
+    margin-top: 0;
+}
+
+li > p, li > a {
+    font-family: sans-serif;
+}
+
+address {
+    margin-bottom: 1em;
+}
